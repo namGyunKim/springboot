@@ -4,6 +4,7 @@ import com.example.firstproject.dto.MemberDto;
 import com.example.firstproject.dto.PassDto;
 import com.example.firstproject.entity.Members;
 import com.example.firstproject.repository.MemberRepository;
+import com.example.firstproject.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -12,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +27,9 @@ public class LoginController {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private MemberService memberService;
 
     @GetMapping("/login")
     public String login(Model model,HttpServletResponse response,HttpSession session) throws Exception{
@@ -57,69 +60,22 @@ public class LoginController {
     @PostMapping("/login2")
     public String login2(Model model, MemberDto dto, RedirectAttributes rttr, HttpSession session) throws IOException {
 
-        String adminsId="admin@admin.com";
-        String adminsPassword="1234";
-//        관리자 계정이면
-        if (dto.getId().equals(adminsId) && dto.getPassword().equals(adminsPassword)) {
-            session.setAttribute("admin",dto.getId());
-            session.setAttribute("userId",dto.getId());
-            return "member/admins";
+        String strReturn=memberService.MemberLogin(model,dto, session);
+//        rttrMsg세션이 존재한다면
+        if(session.getAttribute("rttrMsg")!=null){
+            rttr.addFlashAttribute("msg", session.getAttribute("rttrMsg"));
+            session.removeAttribute("rttrMsg");
         }
-        else if(memberRepository.existsById(dto.getId())){
-            Members membersEntity = memberRepository.findById(dto.getId()).orElse(null);
-            log.info(String.valueOf(membersEntity));
-//            알람창추가위한것
-            if(membersEntity.getPassword().equals(dto.getPassword())){
-
-                log.info(String.valueOf(dto));
-//                로그인 세션 추가
-                session.setAttribute("loginMsg","ok");
-                session.setAttribute("userId",dto.getId());
-                session.setAttribute("userPassword",dto.getPassword());
-                return "redirect:/hi";
-            }
-            else {
-                rttr.addFlashAttribute("msg", "비밀번호가 틀렸습니다");
-                log.info(String.valueOf(dto));
-            }
-        }
-        else{
-            rttr.addFlashAttribute("msg", "아이디가 틀렸습니다");
-            log.info(String.valueOf(dto));
-        }
-
-        return "redirect:/login";
+        return strReturn;
     }
 
 
 
     @PostMapping("/new2")
     public String createMember(MemberDto dto, RedirectAttributes rttr, PassDto passDto){
-
-        if(passDto.getPassword().equals(passDto.getPassword2())){
-//        dto를 Entity로 변환
-            Members members =dto.toEntity();
-            log.info(String.valueOf(dto));
-//        Repository에게 Entity를 저장하게함
-            log.info(String.valueOf(members));
-            if(!memberRepository.existsById(dto.getId())){
-
-                Members save = memberRepository.save(members);
-                log.info(String.valueOf(save));
-//          일회성 데이터
-                rttr.addFlashAttribute("msg", "회원가입을 축하드립니다");
-                return  "redirect:/login";
-
-            }
-            else {
-                rttr.addFlashAttribute("msg", "이메일계정이 존재합니다");
-                return "redirect:/new";
-            }
-
-        } else {
-            rttr.addFlashAttribute("msg", "비밀번호를 동일하게 입력해주세요");
-            return "redirect:/new";
-        }
+        String msg=memberService.MemberJoin(dto,passDto);
+        rttr.addFlashAttribute("msg", msg);
+        return  "redirect:/login";
     }
 
     @GetMapping("/logout")
