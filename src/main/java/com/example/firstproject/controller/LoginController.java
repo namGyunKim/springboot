@@ -152,25 +152,15 @@ public class LoginController {
     public String chatting(){return "chat/chat";}
 
     @PostMapping("/new/idcheck")
-    public String newIdCheck(PassDto dto,RedirectAttributes rttr){
-//      전체 멤버 조회
-        List<Members> membersList = memberRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
-        log.info(String.valueOf(membersList));
-        log.info(dto.getId());
-//      만약 중복되는 아이디가 있다면
-        if(memberRepository.existsById(dto.getId())){
-            rttr.addFlashAttribute("msg", "중복되는 아이디가 있습니다");
-            log.info("아이디가 중복됨");
-        }
-        else {
-            if (dto.getPassword().equals(dto.getPassword2())){
-                rttr.addFlashAttribute("msg", "중복되는 아이디가없습니다");
+    public String newIdCheck(PassDto dto,RedirectAttributes rttr,HttpSession httpSession){
+        memberService.MemberIdCheck(dto,httpSession);
+        if (memberService.SessionExist("rttrMsg",httpSession)){
+            String strSession = (String) httpSession.getAttribute("rttrMsg");
+            rttr.addFlashAttribute("msg", strSession);
+            httpSession.removeAttribute("rttrMsg");
+            if (strSession.equals("회원가입이 가능합니다")){
                 rttr.addFlashAttribute("idcheck", dto.getId());
                 rttr.addFlashAttribute("password", dto.getPassword());
-                log.info("아이디가 중복안됨");
-            }
-            else{
-                rttr.addFlashAttribute("msg", "비밀번호가 일치하지않습니다");
             }
         }
         return "redirect:/new";

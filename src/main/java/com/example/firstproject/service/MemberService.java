@@ -7,11 +7,13 @@ import com.example.firstproject.entity.Members;
 import com.example.firstproject.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -101,5 +103,27 @@ public class MemberService {
         session.removeAttribute("userPassword");
         session.removeAttribute("admin");
         session.setAttribute("deleteMsg","ok");
+    }
+
+    public void MemberIdCheck(PassDto dto,HttpSession httpSession){
+        //      전체 멤버 조회
+        List<Members> membersList = memberRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        log.info(String.valueOf(membersList));
+        log.info(dto.getId());
+//      만약 중복되는 아이디가 있다면
+        if(memberRepository.existsById(dto.getId())){
+            httpSession.setAttribute("rttrMsg","중복되는 아이디가 있습니다");
+            log.info("아이디가 중복됨");
+        }
+        else {
+            if (dto.getPassword().equals(dto.getPassword2())){
+
+                httpSession.setAttribute("rttrMsg","회원가입이 가능합니다");
+                log.info("아이디가 중복안됨");
+            }
+            else{
+                httpSession.setAttribute("rttrMsg","비밀번호가 일치하지않습니다");
+            }
+        }
     }
 }
