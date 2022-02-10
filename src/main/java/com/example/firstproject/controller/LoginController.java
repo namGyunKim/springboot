@@ -37,7 +37,7 @@ public class LoginController {
         String deleteMsg = (String) session.getAttribute("deleteMsg");
         log.info("deleteMSg :  "+deleteMsg);
         if (deleteMsg==null){
-
+            log.info("deleteMsg :"+deleteMsg);
         }
         else if (deleteMsg.equals("ok")){
             //UTF-8인코딩 위에서 받아온 매개변수 HttpServletResponse
@@ -58,7 +58,7 @@ public class LoginController {
     }
 
     @PostMapping("/login2")
-    public String login2(Model model, MemberDto dto, RedirectAttributes rttr, HttpSession session) throws IOException {
+    public String login2(Model model, MemberDto dto, RedirectAttributes rttr, HttpSession session) {
 
         String strReturn=memberService.MemberLogin(model,dto, session);
 //        rttrMsg세션이 존재한다면
@@ -94,7 +94,7 @@ public class LoginController {
         log.info((String) model.getAttribute("loginMsg"));
         String str="하이";
         model.addAttribute("hi", str);
-        log.info("로그인 세션은: "+(String) httpSession.getAttribute("loginMsg"));
+        log.info("로그인 세션은: "+ httpSession.getAttribute("loginMsg"));
         String loginSession = (String) httpSession.getAttribute("loginMsg");
         log.info("스트링으로 변환한 로그인 세션: "+loginSession);
 
@@ -140,16 +140,7 @@ public class LoginController {
 
     @GetMapping("/member/delete/{id}")
     public String delete(@PathVariable String id,HttpSession session){
-//        삭제할 데이터 가져오기
-        Members membersEntity = memberRepository.findById(id).orElse(null);
-        log.info(String.valueOf(membersEntity));
-//        데이터 삭제
-        memberRepository.deleteById(id);
-//        세션 삭제
-        session.removeAttribute("userId");
-        session.removeAttribute("userPassword");
-        session.removeAttribute("admin");
-        session.setAttribute("deleteMsg","ok");
+        memberService.MemberDelete(id,session);
         return "redirect:/login";
     }
     @GetMapping("/go/delete")

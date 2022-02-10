@@ -89,4 +89,17 @@ public class MemberService {
         if (httpSession.getAttribute(str)!=null) return true;
         else return false;
     }
+
+    public void MemberDelete(String id,HttpSession session){
+        //        삭제할 데이터 가져오기
+        Members membersEntity = memberRepository.findById(id).orElse(null);
+        log.info(String.valueOf(membersEntity));
+//        데이터 삭제
+        memberRepository.deleteById(id);
+//        세션 삭제
+        session.removeAttribute("userId");
+        session.removeAttribute("userPassword");
+        session.removeAttribute("admin");
+        session.setAttribute("deleteMsg","ok");
+    }
 }
