@@ -1,0 +1,30 @@
+{{>layouts/header}}
+<div class="container"><br>
+    <h1>상품삭제</h1>
+        <p>아이디를 클릭하면 상품이 삭제됩니다</p>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">상품번호</th>
+        <th scope="col">상품명</th>
+        <th scope="col">상품설명</th>
+        <th scope="col">상품가격</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#coffeesList}}
+        <tr>
+            <th><a href="/coffees/delete/{{id}}"> {{id}}</a></th>
+            <td> {{title}}</td>
+            <td>{{content}}</td>
+            <td>{{price}}</td>
+        </tr>
+    {{/coffeesList}}
+    </tbody>
+</table>
+<button type="button" class="btn btn-primary btn-w" onclick="location.href='/toadmin'">처음화면</button>
+<button type="button" class="btn btn-primary btn-w" onclick="location.href='/coffees/new'">상품 등록</button>
+<button type="button" class="btn btn-primary btn-w" onclick="location.href='/garbage/coffee'">휴지통</button>
+</div>
+{{>layouts/mainfooter}}

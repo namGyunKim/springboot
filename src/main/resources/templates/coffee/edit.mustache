@@ -1,0 +1,26 @@
+{{>layouts/header}}
+{{#coffee}}
+<div class="container"><br>
+    <h1>회원정보 수정</h1>
+    <form action="/coffees/update" method="post">
+        <!--id 값을 숨겨서 던짐-->
+        <input name="id" type="hidden" value="{{id}}">
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">상품명 입력</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="title" required value="{{title}}">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">상품 설명</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" name="content" required value="{{content}}">
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleInputPrice1" class="form-label">상품 가격</label>
+            <input type="number" class="form-control" id="exampleInputPrice11" name="price" required value="{{price}}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">상품 정보 수정</button>
+    </form>
+</div>
+{{/coffee}}
+{{>layouts/footer}}

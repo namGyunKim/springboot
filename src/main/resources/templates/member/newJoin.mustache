@@ -1,0 +1,48 @@
+{{>layouts/header}}
+{{^idcheck}}
+<div class="container"><br>
+    <h1>회원가입</h1>
+    <form action="/new/idcheck" method="post">
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">이메일 주소 입력</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="id" required>
+            <div id="emailHelp" class="form-text">coffee@aaaa.com 형식으로 입력해주세요(중복체크 후 회원가입 가능)</div>
+            <button type="submit" class="btn btn-primary" style="margin-top: 10px;width: 100%">아이디 중복체크</button>
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password 확인</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password2" required>
+        </div>
+    </form>
+</div>
+{{/idcheck}}
+
+
+<div class="container">
+    <form action="/new2" method="post">
+        {{#idcheck}}
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">이메일 주소 입력</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="id" required readonly value="{{idcheck}}">
+            <div id="emailHelp" class="form-text">coffee@aaaa.com 형식으로 입력해주세요</div>
+        </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="password" required readonly value="{{password}}">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="password2" required readonly value="{{password}}">
+            </div>
+        {{/idcheck}}
+        {{#idcheck}}
+        <button type="submit" class="btn btn-primary">회원가입</button>
+        {{/idcheck}}
+    </form>
+</div>
+{{>layouts/footer}}

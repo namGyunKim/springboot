@@ -1,0 +1,22 @@
+{{>layouts/header}}
+<div class="container"><br>
+    <h1>상품등록</h1>
+    <form action="/coffees/new2" method="post">
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">상품명 입력</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="title" required>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">상품 설명</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" name="content" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleInputPrice1" class="form-label">상품 가격</label>
+            <input type="number" class="form-control" id="exampleInputPrice11" name="price" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-w">커피등록</button>
+    </form>
+</div>
+{{>layouts/footer}}

@@ -1,0 +1,18 @@
+{{>layouts/header}}
+<div class="container"><br>
+    <h1>회원정보 수정</h1>
+    <form action="/member/edit2" method="post">
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">이메일 주소 입력</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="id" readonly value="{{userId}}">
+            <div id="emailHelp" class="form-text">coffee@aaaa.com 형식으로 입력해주세요</div>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password" required value="{{userPassword}}">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%">정보수정</button>
+    </form>
+</div>
+{{>layouts/footer}}

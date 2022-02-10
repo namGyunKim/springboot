@@ -1,0 +1,54 @@
+<style>
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translate3d(0, 100%, 0);
+        }
+        to {
+            opacity: 1;
+            transform: translateZ(0);
+        }
+    }
+
+    .obj1 {
+        position: relative;
+        animation: fadeInUp 2500ms;
+    }
+    .obj2 {
+        position: relative;
+        animation: fadeInUp 4000ms;
+    }
+    .obj3 {
+        position: relative;
+        animation: fadeInUp 5500ms;
+    }
+
+    @import url(//fonts.googleapis.com/earlyaccess/jejumyeongjo.css);
+
+    .jm-font{
+        font-family: 'Jeju Myeongjo', serif;
+        font-size: 60px;
+        color: #ffffff;
+    }
+
+</style>
+
+{{>layouts/header}}
+
+<img style="width:100%;" src="/images/coffee-ga404b94f4_1920.jpg" class="img-fluid"/>
+<div>
+
+    <div style="position: absolute;width: 100%; top: 30%;">
+        <div class="obj1" style="float:left;text-align:right;width: 33%;">
+            <a href="coffee/latte"> <p class="jm-font">LATTE</p></a>
+        </div>
+        <div class="obj2" style="float:left;text-align:center;width: 33%;">
+            <a href="coffee/tea"> <p class="jm-font">TEA</p></a>
+        </div>
+        <div class="obj3" style="float:left;text-align:left;width: 33%;">
+            <a href="coffee/ade"> <p class="jm-font">ADE</p></a>
+        </div>
+    </div>
+
+</div>
+{{>layouts/mainfooter}}

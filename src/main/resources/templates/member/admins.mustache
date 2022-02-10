@@ -1,0 +1,12 @@
+{{>layouts/header}}
+<div class="container"><br>
+    <h1>관리자 화면</h1>
+        <div style="text-align: center;">
+            <button type="button" class="btn btn-primary btn-w" onclick="location.href='members/view'">전체 고객 목록</button>
+            <button type="button" class="btn btn-primary btn-w" onclick="location.href='/coffees/index';">관리자용 커피 메뉴</button>
+            <button type="button" class="btn btn-primary btn-w" onclick="location.href='/coffees/new'">상품 등록</button>
+            <button type="button" class="btn btn-primary btn-w" onclick="location.href='/coffees/delete'">상품 삭제</button>
+            <button type="button" class="btn btn-primary btn-w" onclick="location.href='/garbage/coffee'">휴지통</button>
+        </div>
+</div>
+{{>layouts/footer}}

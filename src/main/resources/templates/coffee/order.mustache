@@ -1,0 +1,39 @@
+{{>layouts/header}}
+<hr>
+<div class="container">
+    <ul class="nav nav-tabs media">
+        <li class="nav-item">
+            <a class="nav-link active" href="/coffee/latte">LATTE</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/coffee/tea">TEA</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/coffee/ade">ADE</a>
+        </li>
+    </ul>
+</div>
+{{#coffeesList}}
+
+    <div class="container">
+        <div class="card" style="float:left">
+            <img src="/images/{{title}}.jpg" class="imgg">
+            <div class="card-body">
+                <h5 class="card-title" style="text-align: center">{{title}}</h5>
+                <p class="card-text" style="text-align: center">{{content}}</p>
+                <a href="/coffee/basket/{{id}}">장바구니에 추가</a>
+            </div>
+        </div>
+    </div>
+
+{{/coffeesList}}
+
+{{#userId}}
+    <div style="text-align: right;">
+        <button type="button" class="btn btn-primary" onclick="location.href='/coffee/basketorder/{{userId}}'">구매하기</button>
+    </div>
+{{/userId}}
+
+{{>layouts/mainfooter}}
+
+

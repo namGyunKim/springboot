@@ -1,0 +1,30 @@
+{{>layouts/header}}
+<div class="container"><br>
+    <h1>휴지통</h1>
+        <p>상품을 복구하려면 상품명을 클릭하세요(상품번호는 달라짐)</p>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">상품번호</th>
+            <th scope="col">상품명</th>
+            <th scope="col">상품설명</th>
+            <th scope="col">상품가격</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#coffeesList}}
+            <tr>
+                <th> {{id}}</th>
+                <td> <a href="/garbage/coffee/recovery/{{id}}"> {{title}}</a></td>
+                <td>{{content}}</td>
+                <td>{{price}}</td>
+            </tr>
+        {{/coffeesList}}
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-primary btn-w" onclick="location.href='/toadmin'">처음화면</button>
+    <button type="button" class="btn btn-primary btn-w" onclick="location.href='/coffees/new'">상품 등록</button>
+    <button type="button" class="btn btn-primary btn-w" onclick="location.href='/coffees/delete'">상품 삭제</button>
+    <!--<button type="button" class="btn btn-primary btn-w" onclick="location.href='/garbage/coffee'">휴지통</button>-->
+</div>
+{{>layouts/mainfooter}}

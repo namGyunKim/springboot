@@ -1,0 +1,53 @@
+<style>
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translate3d(0, 100%, 0);
+        }
+        to {
+            opacity: 1;
+            transform: translateZ(0);
+        }
+    }
+
+    .obj1 {
+        position: relative;
+        animation: fadeInUp 1s;
+    }
+</style>
+{{>layouts/header}}
+
+<div class="container"><br>
+    <h1>커피 메뉴</h1>
+    <ul class="nav nav-tabs media">
+        <li class="nav-item">
+            <a class="nav-link" href="/coffee/latte">LATTE</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/coffee/tea">TEA</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="/coffee/ade">ADE</a>
+        </li>
+    </ul>
+</div>
+
+{{#coffeesList}}
+
+    <div class="container obj1">
+        <div class="card" style="float:left;margin-top: 5px;margin-right: 5px">
+            <img src="/images/{{title}}.jpg" class="imgg">
+            <div class="card-body" style="text-align: center">
+                <h5 class="card-title">{{title}}</h5>
+                <button type="button" class="btn btn-primary" onclick="location.href='/coffee/basket/ade/{{id}}'">장바구니에 추가</button>
+            </div>
+        </div>
+    </div>
+
+{{/coffeesList}}
+
+
+
+{{>layouts/mainfooter}}
+
+

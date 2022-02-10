@@ -1,0 +1,21 @@
+{{>layouts/header}}
+<div class="container"><br>
+    <h1>전체 고객 목록</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">password</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#membersList}}
+            <tr>
+                <th> {{id}}</th>
+                <td>{{password}}</td>
+            </tr>
+        {{/membersList}}
+        </tbody>
+    </table>
+</div>
+{{>layouts/mainfooter}}
