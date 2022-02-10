@@ -62,7 +62,7 @@ public class LoginController {
 
         String strReturn=memberService.MemberLogin(model,dto, session);
 //        rttrMsg세션이 존재한다면
-        if(session.getAttribute("rttrMsg")!=null){
+        if(memberService.SessionExist("rttrMsg",session)){
             rttr.addFlashAttribute("msg", session.getAttribute("rttrMsg"));
             session.removeAttribute("rttrMsg");
         }
@@ -129,18 +129,11 @@ public class LoginController {
     @PostMapping("member/edit2")
     public String membersEdit2(HttpSession session,MemberDto dto,RedirectAttributes rttr){
 
-        String id=(String)session.getAttribute("userId");
-        log.info(id);
-        session.removeAttribute("userPassword");
-
-//        DTO를 엔티티로 변환
-        Members members =dto.toEntity();
-//        엔티티를 DB로 저장
-        Members target = memberRepository.findById(id).orElse(null);    //데이터가 없으면 null
-        if(target!=null){
-            memberRepository.save(members);
-            rttr.addFlashAttribute("msg", "개인정보 수정 완료");
-            session.setAttribute("userPassword",dto.getPassword());
+        memberService.MemberEdit(dto,session);
+//       세션이 존재한다면
+        if (memberService.SessionExist("rttrMsg",session)){
+            rttr.addFlashAttribute("msg", "회원정보가 수정되었습니다");
+            session.removeAttribute("rttrMsg");
         }
         return "redirect:/login";
     }

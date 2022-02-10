@@ -67,4 +67,26 @@ public class MemberService {
         }
         return strReturn;
     }
+
+    public void MemberEdit(MemberDto dto,HttpSession session){
+
+        String id=(String)session.getAttribute("userId");
+        log.info(id);
+        session.removeAttribute("userPassword");
+
+//        DTO를 엔티티로 변환
+        Members members =dto.toEntity();
+//        엔티티를 DB로 저장
+        Members target = memberRepository.findById(id).orElse(null);    //데이터가 없으면 null
+        if(target!=null){
+            memberRepository.save(members);
+            session.setAttribute("rttrMsg","개인정보 수정 완료");
+            session.setAttribute("userPassword",dto.getPassword());
+        }
+    }
+
+    public boolean SessionExist(String str,HttpSession httpSession){
+        if (httpSession.getAttribute(str)!=null) return true;
+        else return false;
+    }
 }
