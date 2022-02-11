@@ -4,6 +4,7 @@ package com.example.firstproject.controller;
 import com.example.firstproject.dto.CoffeeDto;
 import com.example.firstproject.entity.*;
 import com.example.firstproject.repository.*;
+import com.example.firstproject.service.CoffeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -32,6 +33,8 @@ public class CoffeesController {
     @Autowired
     LatteRepository latteRepository;
 
+    @Autowired
+    CoffeeService coffeeService;
     @GetMapping("/coffees/new")
     public String coffeesNew(){
         return "coffee/new";
@@ -39,13 +42,7 @@ public class CoffeesController {
 
     @PostMapping("/coffees/new2")
     public String coffeesNew2(CoffeeDto dto, RedirectAttributes rttr){
-//        dto를 Entity로 변환
-        Coffees coffees=dto.toEntity();
-        log.info(String.valueOf(dto));
-        log.info(String.valueOf(coffees));
-//        Repository에게 Entity를 저장하게함
-        Coffees saved = coffeeRepository.save(coffees);
-        log.info(String.valueOf(saved));
+        coffeeService.addCoffee(dto);
         rttr.addFlashAttribute("msg", "상품등록 완료");
         return "coffee/new";
 
@@ -98,67 +95,17 @@ public class CoffeesController {
 
     @GetMapping("/coffees/delete/{id}")
     public String delete(@PathVariable Long id,RedirectAttributes rttr){
-//        삭제할 데이터 가져오기
-        Coffees coffeesEntity=coffeeRepository.findById(id).orElse(null);
-        log.info(String.valueOf(coffeesEntity));
-//        상품 삭제
-        coffeeRepository.deleteById(id);
-//        휴지통에 추가
-        CGarbage cGarbageEntity = new CGarbage(id, coffeesEntity.getTitle(), coffeesEntity.getContent(), coffeesEntity.getPrice());
-        log.info(String.valueOf(cGarbageEntity));
-        CGarbage saved = garbageRepository.save(cGarbageEntity);
+        coffeeService.CoffeeKateDelete(id);
         rttr.addFlashAttribute("msg", id + "번상품의 데이터가 삭제되었습니다.");
-//        카테고리에서 삭제
-        if(teaRepository.existsById(id)) teaRepository.deleteById(id);
-        if(adeRepository.existsById(id)) adeRepository.deleteById(id);
-        if(latteRepository.existsById(id)) adeRepository.deleteById(id);
 //        뷰 페이지 설정
         return "redirect:/coffees/delete";
     }
 
 @GetMapping("/coffees/order")
 public String order(Model model, HttpSession httpSession){
+    String strReturn=coffeeService.CoffeeOrder(model, httpSession);
+    return strReturn;
 
-    log.info("오더메소드 도착");
-    String kate = String.valueOf(httpSession.getAttribute("kate"));
-    log.info(kate);
-
-    //        모든 상품 목록을 가져온다
-    if (kate.equals("tea")){
-        log.info("티에서 누른경우");
-        List<Tea> coffeesList = teaRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
-        log.info(String.valueOf(coffeesList));
-//        가져온 상품목록을 뷰로 전달
-        model.addAttribute("coffeesList", coffeesList);
-        //        뷰 페이지 설정
-        return "coffee/tea";
-    }
-    else if(kate.equals("latte")){
-        log.info("라떼에서 누른경우");
-        List<Latte> coffeesList = latteRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
-        log.info(String.valueOf(coffeesList));
-//        가져온 상품목록을 뷰로 전달
-        model.addAttribute("coffeesList", coffeesList);
-        //        뷰 페이지 설정
-        return "coffee/latte";
-    }
-    else if(kate.equals("ade")){
-        log.info("에이드에서 누른경우");
-        List<Ade> coffeesList = adeRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
-        log.info(String.valueOf(coffeesList));
-//        가져온 상품목록을 뷰로 전달
-        model.addAttribute("coffeesList", coffeesList);
-        //        뷰 페이지 설정
-        return "coffee/ade";
-    }
-    else{
-        List<Coffees> coffeesList = coffeeRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
-        log.info(String.valueOf(coffeesList));
-//        가져온 상품목록을 뷰로 전달
-        model.addAttribute("coffeesList", coffeesList);
-//        뷰 페이지 설정
-        return "coffee/order";
-    }
 }
 
 
