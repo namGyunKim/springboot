@@ -1,3 +1,4 @@
 # springboot
-카페쇼핑몰
-멤버랑 휴지통까지만 서비스화 하고 나머진 안했음
+스프링부트로 만든 카페 쇼핑몰
+아래 이미지 클릭시 시연영상 재생
+[![Video Label](http://img.youtube.com/vi/T5u7gTr8MGk/0.jpg)](https://youtu.be/T5u7gTr8MGk)
