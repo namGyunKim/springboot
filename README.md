@@ -1,6 +1,4 @@
 # springboot
 스프링부트로 만든 카페 쇼핑몰 
-https://www.youtube.com/watch?v=T5u7gTr8MGk
-<img src="https://user-images.githubusercontent.com/30253535/153536526-3d1078c2-8cd3-434c-b7c9-14b87c9d449f.png">
+아래 이미지 클릭시 시연영상 재생
 [![Video Label](http://img.youtube.com/vi/T5u7gTr8MGk/0.jpg)](https://youtu.be/T5u7gTr8MGk)
-[! [비디오] (https://img.youtube.com/vi/T-D1KVIuvjA/maxresdefault.jpg)]
