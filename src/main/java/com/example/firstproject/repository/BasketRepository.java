@@ -17,5 +17,5 @@ public interface BasketRepository extends JpaRepository<Cbasket,Long> {
     @Query(value = "select * from cbasket where userid= :userid",
             nativeQuery = true)
     List<Cbasket> orderUser(@Param("userid") String userid);
-//dddd
+
 }
